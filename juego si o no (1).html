@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Juego de Ganador o Perdedor</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: black;
+    color: white;
+  }
+  h2 {
+    margin-bottom: 20px;
+  }
+  button {
+    background-color: red;
+    border: none;
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    font-size: 16px;
+    color: white;
+    cursor: pointer;
+    outline: none;
+  }
+  button:hover {
+    opacity: 0.8;
+  }
+  #resultado {
+    margin-top: 20px;
+    font-size: 24px;
+  }
+  @keyframes parpadeo {
+    0% {opacity: 1;}
+    50% {opacity: 0.5;}
+    100% {opacity: 1;}
+  }
+  .parpadea {
+    animation: parpadeo 0.5s infinite;
+  }
+</style>
+</head>
+<body>
+<h2>¿Te gustaría probar tu suerte?</h2>
+<button id="boton">¡Presiona!</button>
+<p id="resultado"></p>
+<script>
+  const boton = document.getElementById("boton");
+  const audioGanador = new Audio('https://freesound.org/data/previews/523/523515_4064-lq.mp3');
+  const audioPerdedor = new Audio('https://freesound.org/data/previews/523/523514_4064-lq.mp3');
+  
+  audioGanador.muted = true;
+  audioPerdedor.muted = true;
+  
+  boton.addEventListener("click", function () {
+    boton.classList.add("parpadea");
+    boton.disabled = true;
+    setTimeout(function () {
+      const resultadoAleatorio = Math.random();
+      const probabilidadGanar = 50; // Probabilidad de ganar del 50%
+      const resultado = resultadoAleatorio < probabilidadGanar ? "Ganador" : "Perdedor";
+      document.getElementById("resultado").innerText = resultado;
+      if (resultado === "Ganador") {
+        audioGanador.muted = false;
+        audioGanador.play();
+      } else {
+        audioPerdedor.muted = false;
+        audioPerdedor.play();
+      }
+      boton.classList.remove("parpadea");
+      boton.disabled = false;
+    }, 1000);
+  });
+</script>
+</body>
+</html>
